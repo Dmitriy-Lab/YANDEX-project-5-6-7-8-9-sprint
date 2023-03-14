@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./normalize.css">
+  <link rel="stylesheet" href="./fonts/fonts.css">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Mesto Russia</title>
+</head>
+
+<body class="page">
+    <header class="header">
+        <img class="header_logo" alt="Логотип сайта" src="./images/logo.svg">
+    </header>
+ 
+    <section class="profile">
+        <div class="profile__avatar">
+            <img class="profile__avatar_photo" alt="Фото исследователя" src="./images/photo.jpg">
+        </div>
+        <div class="profile__info">
+                <h2 class="profile__name">Жак-Ив&nbspКусто</h2>
+                <button class="button__rename">
+                </button>
+            <p class="profile__about">Исследователь&nbspокеана</p>
+        </div>
+        <button class="button__add"></button>
+    </section>
+    <section class="elements">
+    </section>
+    <footer class="footer">
+<p class="footer__signature">© 2023 Mesto Russia</p>
+    </footer>
+    <section class="popup popup-rename">
+        <div class="popup__container">
+            <form class="popup__form popup__form-rename">
+                <label class="popup__form_label">Редактировать профиль</label>
+                <input class="popup__form_first popup__form_name" type="text" name="name"  placeholder="Имя">
+                <input class="popup__form_second popup__form_profession" type="text" name="profession"  placeholder="Профессия">
+                <button class="popup__form_submit-button" type="submit">Сохранить</button>
+            </form>
+            <button class="popup__close-button" type="button"></button>
+        </div>
+    </section>
+    <section class="popup popup-addCard">
+        <div class="popup__container">
+            <form class="popup__form popup__form-addCard">
+                <label class="popup__form_label">Новое место</label>
+                <input class="popup__form_first popup__form_plase" type="text" placeholder="Название">
+                <input class="popup__form_second popup__form_link" type="text" placeholder="Ссылка на картинку">
+                <button class="popup__form_submit-button" type="submit">Сохранить</button>
+            </form>
+            <button class="popup__close-button" type="button"></button>
+        </div>
+    </section>
+    <section class="popup popup-image">
+        <div class="popup__content">
+        <div class="popup__container-image">
+            <img class="popup__image" src="">
+            <h3 class="popup__image_header"></h3>
+        </div>
+        <button class="popup__close-button" type="button"></button>
+        </div>
+    </section>
+
+<template class="card__template">
+    <div class="elements__element">
+        <img class="elements__photo" alt="Фото1" src="./images/kirill-pershin-1088404-unsplash.jpg">
+        <div class="elements__info">
+            <h3 class="elements__name">Карачаевск</h3>
+            <button class="button__like"></button>
+        </div>
+        <button class='button__remove'></button>
+    </div>
+</template>
+    <script src="./scripts.js"></script>
+</body>
+</html>
+
