@@ -135,11 +135,30 @@ function openPopupImage(event) {
 
 function openAnyPopup(popup) {
     popup.classList.add('popup_opened');
+    popup.addEventListener('click', closeAnyPopupOverlay);
+    document.addEventListener('keydown', closeAnyPopupEsc); 
+};
+
+function closeAnyPopupEsc (event) {
+if (event.key === 'Escape') {
+    closeAnyPopup();
+}
+};
+
+
+function closeAnyPopupOverlay (evt) {
+    if (evt.currentTarget === evt.target) {
+        closeAnyPopup();
+    }
 };
 
 function closeAnyPopup() {
-    const openedPopup = document.querySelector('.popup_opened');
-    openedPopup.classList.remove('popup_opened');
+    const popup = document.querySelector('.popup_opened');
+    popup.classList.remove('popup_opened');
+    document.querySelector('.popup__input-error').textContent = '';
+    popup.removeEventListener('click', closeAnyPopupOverlay);
+    document.removeEventListener('keydown', closeAnyPopupEsc); 
+
 };
 
 btnRename.addEventListener('click', openPopupRename);
