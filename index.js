@@ -1,121 +1,84 @@
-import { Card } from './Card.js';
-import { FormValidator } from './FormValidator.js';
-import {initialCards, config} from './constants.js';
+import Card from './components/Card.js';
+import FormValidator from './components/FormValidator.js';
+import PopupWithForm from './components/PopupWithForm.js';
+import PopupWithImage from './components/PopupWithImage.js';
+import Section from './components/Section.js';
+import UserInfo from './components/UserInfo.js';
 
-// Общие элементы
-const cardsField = document.querySelector('.elements');
-const btnPopupRename = document.querySelector('.popup__close-button');
+import {
+    initialCards,
+    config,
+    templateSelector,
+    btnRename,
+    btnAddCard,
+    nameOnSite,
+    aboutOnSite,
+    popupAddCardClass,
+    popupUserInfoClass
+} from './utils/constants.js';
 
-// ПОПАП смены личных данных
-const btnRename = document.querySelector('.button__rename');
-const popupRename = document.querySelector('.popup-rename');
-
-const formElementRename = document.querySelector('.popup__form-rename');
-const nameInput = document.querySelector('.popup__form_name');
-const jobInput = document.querySelector('.popup__form_profession');
-const userName = document.querySelector('.profile__name');
-const userJob = document.querySelector('.profile__about');
-
-// ПОПАП добавления карточки
-const btnAddCard = document.querySelector('.button__add');
-const popupAddNewCard = document.querySelector('.popup-addCard');
-const btnPopupAddNewCardClose = popupAddNewCard.querySelector('.popup__close-button');
-
-const formElementAddCard = document.querySelector('.popup__form-addCard')
-const cardHeaderInput = document.querySelector('.popup__form_plase');
-const cardLinkInput = document.querySelector('.popup__form_link');
-
-// ПОПАП Открытия картинки 
-const popupOpenImage = document.querySelector('.popup-image');
-const popupCloseImage = popupOpenImage.querySelector('.popup__close-button');
-
-
-
-// Личные данные попап
-
-function openPopupRename() {
-    openAnyPopup(popupRename);
-    nameInput.value = userName.textContent;
-    jobInput.value = userJob.textContent;
-};
-
-function handleFormSubmit(evt) {
-    evt.preventDefault();
-    userName.textContent = nameInput.value;
-    userJob.textContent = jobInput.value;
-    closeAnyPopup();
-}
-
-// Добавить карточку попап
-
-function openPopupAddNewCard() {
-    openAnyPopup(popupAddNewCard);
-    cardHeaderInput.value = '';
-    cardLinkInput.value = '';
-};
-
-initialCards.forEach((item) => {
-    const card = new Card(item, '.card__template');
-    const cardElement = card.generateCard();
-    cardsField.prepend(cardElement);
+const userInfo = new UserInfo({
+    profileNameSelector: '.profile__name',
+    profileAboutSelector: '.profile__about'
 });
 
-function addCardFormSubmit(evt) {
-    evt.preventDefault();
-    let newCard = {
-        name: '',
-        link: ''
-    };
-    newCard.name = cardHeaderInput.value;
-    newCard.link = cardLinkInput.value;
-    const card = new Card(newCard, '.card__template');
-    const cardElement = card.generateCard();
-    cardsField.prepend(cardElement);
-    closeAnyPopup();
+function createCard(data) {
+    const card = new Card({ data, handelCardClick: () => { openImagePopup(data) } }, templateSelector);
+    return card.generateCard();
 }
 
-// Открыть-закрыть, листнеры
+const imagePopup = new PopupWithImage('.popup-image');
 
-export function openAnyPopup(popup) {
-    popup.classList.add('popup_opened');
-    popup.addEventListener('click', closeAnyPopupOverlay);
-    document.addEventListener('keydown', closeAnyPopupEsc);
-    newCardPopupFormValidator.cleanInputErrors();
-    renamePopupFormValidator.cleanInputErrors();
+function openImagePopup(data) {
+    imagePopup.open(data);
 }
 
-function closeAnyPopupEsc(event) {
-    if (event.key === 'Escape') {
-        closeAnyPopup();
+const section = new Section({
+    items: initialCards,
+    renderer: (data) => {
+        section.addItem(createCard(data));
     }
+}, '.elements')
+
+section.renderItems();
+
+const userInfoPopup = new PopupWithForm('.popup-rename', (data) => {
+    userInfo.setUserInfo({
+        userName: data.name,
+        userAbout: data.profession
+    })
+});
+
+const cardAddPopup = new PopupWithForm('.popup-addCard', (data) => {
+    const userCard = createCard(data);
+    section.addItem(userCard);
+    cardAddPopup.close();
+});
+
+imagePopup.setEventListeners();
+userInfoPopup.setEventListeners();
+cardAddPopup.setEventListeners();
+
+function changeNameOfSite() {
+    const inputValues = userInfo.getUserInfo();
+    nameOnSite['value'] = inputValues.userName;
+    aboutOnSite['value'] = inputValues.userAbout;
 };
 
+const userFormValodator = new FormValidator(config, popupUserInfoClass);
 
-function closeAnyPopupOverlay(evt) {
-    if (evt.currentTarget === evt.target) {
-        closeAnyPopup();
-    }
-};
+const cardFormValodator = new FormValidator(config, popupAddCardClass);
 
-function closeAnyPopup() {
-    const popup = document.querySelector('.popup_opened');
-    popup.classList.remove('popup_opened');
-    document.querySelector('.popup__input-error').textContent = '';
-    popup.removeEventListener('click', closeAnyPopupOverlay);
-    document.removeEventListener('keydown', closeAnyPopupEsc);
-};
+userFormValodator.enableValidation();
+cardFormValodator.enableValidation();
 
-btnRename.addEventListener('click', openPopupRename);
-btnPopupRename.addEventListener('click', closeAnyPopup);
-formElementRename.addEventListener('submit', handleFormSubmit);
-formElementAddCard.addEventListener('submit', addCardFormSubmit);
-btnAddCard.addEventListener('click', openPopupAddNewCard);
-btnPopupAddNewCardClose.addEventListener('click', closeAnyPopup);
-popupCloseImage.addEventListener('click', closeAnyPopup);
+btnRename.addEventListener('click', () => {
+    userInfoPopup.open();
+    changeNameOfSite();
+    userFormValodator.resetValodation();
+});
 
-
-const newCardPopupFormValidator = new FormValidator(config, formElementAddCard);
-newCardPopupFormValidator.enableValidation();
-
-const renamePopupFormValidator = new FormValidator(config, formElementRename);
-renamePopupFormValidator.enableValidation();
+btnAddCard.addEventListener('click', () => {
+    cardAddPopup.open();
+    cardFormValodator.resetValodation();
+});

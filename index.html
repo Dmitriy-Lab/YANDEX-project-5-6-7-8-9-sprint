@@ -45,6 +45,7 @@
                     <span class="popup__input-error popup__input-error_profession"></span>
                 </label>
                 <button class="popup__form_submit-button" type="submit">Сохранить</button>
+                
             </form>
             <button class="popup__close-button" type="button"></button>
         </div>
@@ -54,12 +55,12 @@
             <form class="popup__form popup__form-addCard">
                 <label class="popup__form_header">Новое место</label>
                 <label class=" popup__form_label">
-                    <input class="popup__form_input popup__form_plase" type="text" name="title" placeholder="Название" minlength="2" maxlength="30" required>
-                    <span class="popup__input-error popup__input-error_title"></span>
+                    <input class="popup__form_input popup__form_plase" type="text" name="name" placeholder="Название" minlength="2" maxlength="30" required>
+                    <span class="popup__input-error popup__input-error_name"></span>
                 </label>
                 <label class="popup__form_label">
-                    <input class="popup__form_input popup__form_link" type="url" name="url" placeholder="Ссылка на картинку" required>
-                    <span class="popup__input-error popup__input-error_url"></span>
+                    <input class="popup__form_input popup__form_link" type="url" name="link" placeholder="Ссылка на картинку" required>
+                    <span class="popup__input-error popup__input-error_link"></span>
                  </label>
                 <button class="popup__form_submit-button" type="submit">Сохранить</button>
             </form>
@@ -87,9 +88,14 @@
     </div>
 </template>
 <script type="module" src="./index.js"></script>
-<script type="module" src="./Card.js"></script> 
-<script type="module" src="./FormValidator.js"></script> 
-
+<script type="module" src="./components/Card.js"></script>
+<script type="module" src="./components/FormValidator.js"></script>
+<script type="module" src="./components/Popup.js"></script>
+<script type="module" src="./components/PopupWithForm.js"></script>
+<script type="module" src="./components/PopupWithImage.js"></script>
+<script type="module" src="./components/Section.js"></script>
+<script type="module" src="./components/UserInfo.js"></script>
+<script type="module" src="./utils/constants.js"></script>
 </body>
 </html>
 

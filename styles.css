@@ -207,6 +207,7 @@
     width: 22px;
     height: 19px;
     background-image: url(./images/Group.png);
+    background-color: inherit;
     margin-right: 21px;
     cursor: pointer;
     transition: all 0.2s;

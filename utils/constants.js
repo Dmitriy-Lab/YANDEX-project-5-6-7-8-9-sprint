@@ -31,4 +31,12 @@ export const config = {
     buttonSubmitSelector: '.popup__form_submit-button',
     spanErrorClass: 'popup__input-error_active',
     inputErrorClass: 'popup__form_input_type-error'
-  };
+};
+
+export const templateSelector = '.card__template';
+export const btnRename = document.querySelector('.button__rename');
+export const btnAddCard = document.querySelector('.button__add');
+export const nameOnSite = document.querySelector('.popup__form_name');
+export const aboutOnSite = document.querySelector('.popup__form_profession');
+export const popupAddCardClass = document.querySelector('.popup__form-addCard');
+export const popupUserInfoClass = document.querySelector('.popup__form-rename');
